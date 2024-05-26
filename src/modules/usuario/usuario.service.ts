@@ -18,6 +18,11 @@ export class UsuarioService {
     private usuarioRepository: Repository<UsuarioEntity>,
   ) {}
 
+  async buscaPorEmail(email: string) {
+    const usuario = await this.usuarioRepository.findOneBy({ email });
+    return usuario;
+  }
+
   async listaUsuarios() {
     const usuarios = await this.usuarioRepository.find();
     const usuariosLista = usuarios.map(

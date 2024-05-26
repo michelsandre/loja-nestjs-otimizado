@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { UsuarioModule } from './usuario/usuario.module';
-import { ProdutoModule } from './produto/produto.module';
+import { UsuarioModule } from './modules/usuario/usuario.module';
+import { ProdutoModule } from './modules/produto/produto.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigService } from './config/postgres.config.service';
 import { ConfigModule } from '@nestjs/config';
-import { PedidoModule } from './pedido/pedido.module';
+import { PedidoModule } from './modules/pedido/pedido.module';
 import { APP_FILTER } from '@nestjs/core';
-import { FiltroDeExcecaoGlobal } from './filtros/filtro-de-excecao-global';
+import { FiltroDeExcecaoGlobal } from './resources/filtros/filtro-de-excecao-global';
 import { CacheModule } from '@nestjs/cache-manager';
+import { AutenticacaoModule } from './modules/autenticacao/autenticacao.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     }),
     PedidoModule,
     CacheModule.register({ isGlobal: true, ttl: 10000 }),
+    AutenticacaoModule,
   ],
   controllers: [],
   providers: [
