@@ -15,6 +15,10 @@ export class ProdutoService {
   async listaProdutos() {
     return await this.produtoRepository.find();
   }
+
+  async listaProdutoUnico(id: string) {
+    return await this.produtoRepository.findOneBy({ id });
+  }
   async criaProduto(produto: CriaProdutoDTO) {
     const produtoEntity = new ProdutoEntity();
     Object.assign(produtoEntity, produto);

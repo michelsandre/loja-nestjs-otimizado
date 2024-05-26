@@ -22,7 +22,7 @@ export class CriaProdutoDTO {
 
   @IsNumber()
   @Min(0)
-  quantidade: number;
+  quantidadeDisponivel: number;
 
   @IsString()
   @IsNotEmpty()
