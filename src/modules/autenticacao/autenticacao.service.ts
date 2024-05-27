@@ -1,10 +1,19 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsuarioService } from '../usuario/usuario.service';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+
+interface UsuarioPayLoad {
+  sub: string;
+  userName: string;
+}
 
 @Injectable()
 export class AutenticacaoService {
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(
+    private usuarioService: UsuarioService,
+    private jwtService: JwtService,
+  ) {}
   async login(email: string, senhaInserida: string) {
     const usuario = await this.usuarioService.buscaPorEmail(email);
 
@@ -16,6 +25,13 @@ export class AutenticacaoService {
     if (!usuarioFoiAutenticado)
       throw new UnauthorizedException('O email e/ou senha estão incorretos');
 
-    console.log('Usuario autenticado');
+    const payload: UsuarioPayLoad = {
+      sub: usuario!.id,
+      userName: usuario!.nome,
+    };
+
+    return {
+      accessToken: await this.jwtService.signAsync(payload),
+    };
   }
 }
