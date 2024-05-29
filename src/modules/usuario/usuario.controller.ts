@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { UsuarioRepository } from './usuario.repository';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
@@ -13,6 +14,7 @@ import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 import { UsuarioService } from './usuario.service';
 import { HashSenhaPipe } from '../../resources/pipes/hash-senha.pipe';
+import { AutenticacaoGuard } from '../autenticacao/autenticacao.guard';
 
 @Controller('usuarios')
 export class UsuarioController {
@@ -38,6 +40,7 @@ export class UsuarioController {
   }
 
   @Get()
+  @UseGuards(AutenticacaoGuard)
   async listarTodos() {
     const usuarios = await this.usuarioService.listaUsuarios();
     return usuarios;
